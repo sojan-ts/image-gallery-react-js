@@ -1,24 +1,31 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
+import ImageGallery from 'react-image-gallery';
 import './App.css';
+import axios from 'axios';
+
 
 function App() {
+
+  const [images, Setimages] = useState([]);
+
+  useEffect(() => {
+    async function getUser() {
+      try {
+        const response = await axios.get('https://api.npoint.io/3e81088a6a43d09c3744');
+        console.log(response.data.data);
+        Setimages(response.data.data)
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    getUser();
+  },[]);
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+<>
+<ImageGallery items={images} />
+</>
   );
 }
 
